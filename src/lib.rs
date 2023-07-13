@@ -9,35 +9,28 @@ use tower_http::{compression::CompressionLayer, cors::CorsLayer};
 
 mod fish;
 mod fishs;
+mod fishs_by_lake;
 mod router_auth;
 mod thing;
 
 use crate::fish::{get_fish, FishData};
 use crate::fishs::{get_fishs, Fish};
-use crate::thing::{get_thing, CreateThing, Thing};
+use crate::fishs_by_lake::get_fishs_by_lake;
+use crate::thing::{CreateThing, Thing};
 
 struct Query;
 
 #[Object]
 impl Query {
-    // TODO: Fill in query AND entity resolvers
-    /// This will show up in the supergraph schema as part of Query.
-    async fn thing(&self, id: ID) -> Option<Thing> {
-        get_thing(id)
-    }
-
-    async fn get_fish(&self, id: ID) -> Option<FishData> {
+    async fn fish_by_id(&self, id: ID) -> Option<FishData> {
         get_fish(id.to_string()).await
     }
 
-    async fn get_fishs(&self) -> Option<Vec<Fish>> {
+    async fn fish_type(&self) -> Option<Vec<Fish>> {
         get_fishs().await
     }
-
-    /// This will be available to other subgraphs as an entity.
-    #[graphql(entity)]
-    async fn thing_entity_by_id(&self, id: ID) -> Option<Thing> {
-        get_thing(id)
+    async fn fish_by_lake(&self, lake: String) -> Option<Vec<Fish>> {
+        get_fishs_by_lake(lake).await
     }
 }
 
