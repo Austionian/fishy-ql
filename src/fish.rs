@@ -39,11 +39,11 @@ pub(crate) struct FishInput {
 }
 
 pub(crate) async fn get_fish(id: String) -> Option<FishData> {
-    let url = format!("http://127.0.0.1:8000/v1/fish/{}", id);
+    let url = format!("{}/v1/fish/{}", std::env::var("HOST").unwrap(), id);
     let client = reqwest::Client::new();
     let response = client
         .get(url)
-        .bearer_auth("1234567890")
+        .bearer_auth(std::env::var("APIKEY").unwrap())
         .send()
         .await
         .unwrap();

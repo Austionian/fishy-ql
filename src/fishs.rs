@@ -18,11 +18,11 @@ pub(crate) struct Fish {
 }
 
 pub(crate) async fn get_fishs() -> Option<Vec<Fish>> {
-    let url = "http://127.0.0.1:8000/v1/fish_avgs";
+    let url = format!("{}/v1/fish_avgs", std::env::var("HOST").unwrap());
     let client = reqwest::Client::new();
     let response = client
         .get(url)
-        .bearer_auth("1234567890")
+        .bearer_auth(std::env::var("APIKEY").unwrap())
         .send()
         .await
         .unwrap();

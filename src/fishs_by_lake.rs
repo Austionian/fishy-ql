@@ -37,11 +37,11 @@ impl Display for Lakes {
 pub(crate) async fn get_fishs_by_lake(lake: String) -> Option<Vec<Fish>> {
     match lake.parse::<Lakes>() {
         Ok(lake) => {
-            let url = format!("http://127.0.0.1:8000/v1/fishs?lake={}", lake);
+            let url = format!("{}/v1/fishs?lake={}", std::env::var("HOST").unwrap(), lake);
             let client = reqwest::Client::new();
             let response = client
                 .get(url)
-                .bearer_auth("1234567890")
+                .bearer_auth(std::env::var("APIKEY").unwrap())
                 .send()
                 .await
                 .unwrap();
