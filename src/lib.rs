@@ -29,7 +29,7 @@ impl Query {
     async fn fish_type(&self) -> Option<Vec<Fish>> {
         get_fishs().await
     }
-    async fn fish_by_lake(&self, lake: String) -> Option<Vec<Fish>> {
+    async fn fishs_by_lake(&self, lake: String) -> Option<Vec<Fish>> {
         get_fishs_by_lake(lake).await
     }
 }
